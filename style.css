@@ -139,7 +139,7 @@ nav a:hover {
 }
 main {
   position: relative;
-  background-image: url('img/shetkari.jpg');
+  background-image: url('shetkari.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
