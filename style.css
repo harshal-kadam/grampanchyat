@@ -262,3 +262,109 @@ img:hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
+/* features box (same look) */
+.features-box {
+  background: #f6f6f6;
+  border: 1px solid #bfbfbf;     /* small border as requested */
+  padding: 14px 20px;
+  margin: 20px auto;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  transition: transform .16s ease, background .16s;
+  font-size: 17px;
+  font-family: 'Baloo 2', sans-serif;
+  color: #333;
+}
+.features-box i { font-size: 22px; color: #444; }
+.features-box:hover { transform: translateY(-3px); background: #efefef; }
+
+/* overlay */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+  padding: 20px;
+}
+
+/* popup window with 3D effect */
+.popup-window {
+  width: 380px;               /* slightly bigger */
+  background: linear-gradient(180deg, #ffffff 0%, #fbfbfb 100%);
+  border-radius: 14px;
+  border: 1px solid #d0d0d0;  /* subtle outer border */
+  box-shadow:
+    0 18px 45px rgba(0,0,0,0.25),   /* deep soft shadow */
+    0 6px 18px rgba(0,0,0,0.12),    /* mid shadow */
+    inset 0 1px 0 rgba(255,255,255,0.5); /* slight inner highlight */
+  overflow: hidden;
+  transform-origin: center top;
+  /* initial hidden transform for animation */
+  transform: translateY(-20px) rotateX(6deg) scale(.96);
+  opacity: 0;
+  transition: transform .28s cubic-bezier(.18,.9,.32,1), opacity .22s ease;
+  font-family: 'Baloo 2', sans-serif;
+}
+
+/* show class toggled by JS (we use inline style toggle but here's the class if you prefer) */
+.popup-window.show {
+  transform: translateY(0) rotateX(0) scale(1);
+  opacity: 1;
+}
+
+/* small centered handle instead of text or arrow */
+.popup-handle {
+  width: 60px;
+  height: 6px;
+  margin: 12px auto 6px;
+  background: linear-gradient(90deg, #e6e6e6, #dcdcdc);
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+}
+
+/* features list with gray separators */
+.features-list {
+  list-style: none;
+  padding: 8px 10px 16px;
+  margin: 0;
+}
+.features-list li {
+  border-bottom: 1px solid #e0e0e0; /* gray line after every point */
+}
+.features-list li:last-child {
+  border-bottom: none;
+}
+
+/* link style: lighter textured font look */
+.features-list a {
+  display: block;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: #262626;               /* not too dark */
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: 0.2px;
+  /* subtle textured/light effect on text */
+  text-shadow: 0 1px 0 rgba(255,255,255,0.75), 0 0 1px rgba(0,0,0,0.02);
+  transition: background .14s ease, transform .12s ease;
+}
+.features-list a:hover {
+  background: #fafafa;
+  transform: translateX(4px);
+}
+
+/* small responsive tweak */
+@media (max-width:420px) {
+  .popup-window { width: calc(100% - 40px); }
+  .features-box { font-size: 15px; padding: 12px 14px; }
+}
