@@ -44,30 +44,62 @@
   <!-- Main Content -->
   <main>
     <h2>आपले स्वागत आहे!</h2>
-<section id="notice-block" style="display: none; background-color: #fff8e1; padding: 20px; margin: 20px; border-radius: 10px; border-left: 6px solid #ff9800;">
-  <h2 style="color: #e65100;">📢 नवीन ग्रामपंचायत सूचना</h2>
-  <iframe 
-    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vXXXXX/pubhtml?gid=0&single=true&widget=true&headers=false" 
-    style="width:100%; height:300px; border:none;">
-  </iframe>
-</section>
+<!-- अधिक सुविधा बॉक्स -->
+<div class="features-box" onclick="openPopup()">
+  <i class="fas fa-cog"></i>
+  <span>अधिक सुविधा पाहण्यासाठी येथे क्लिक करा</span>
+</div>
+
+<!-- पॉपअप -->
+<div id="popup-overlay" class="popup-overlay" onclick="closePopup()">
+  <div class="popup-window" onclick="event.stopPropagation()">
+
+    <!-- small handle (instead of arrow/title) -->
+    <div class="popup-handle" aria-hidden="true"></div>
+
+    <ul class="features-list">
+      <li><a href="village.html">📍 गावाची माहिती</a></li>
+      <li><a href="yojana.html">📜 शासकीय योजना</a></li>
+      <li><a href="seva.html">💼 सेवा</a></li>
+      <li><a href="panchayat-info.html">🏛 ग्रामपंचायत माहिती</a></li>
+    </ul>
+
+  </div>
+</div>
+
+
 
 <script>
-  // Google Sheets JSON URL (replace with your Sheet ID)
-  const sheetURL = "https://spreadsheets.google.com/feeds/list/YOUR_SHEET_ID/od6/public/values?alt=json";
-
-  fetch(sheetURL)
-    .then(response => response.json())
-    .then(data => {
-      const entries = data.feed.entry;
-      if (entries && entries.length > 0) {
-        document.getElementById("notice-block").style.display = "block";
-      }
-    })
-    .catch(err => {
-      console.error("Google Sheet access error:", err);
-    });
+function openPopup() {
+  const overlay = document.getElementById("popup-overlay");
+  const win = overlay.querySelector(".popup-window");
+  overlay.style.display = "flex";
+  // small timeout to allow CSS transition from initial state
+  requestAnimationFrame(() => {
+    win.style.transform = "translateY(0) rotateX(0) scale(1)";
+    win.style.opacity = "1";
+  });
+}
+function closePopup() {
+  const overlay = document.getElementById("popup-overlay");
+  const win = overlay.querySelector(".popup-window");
+  // reverse animate
+  win.style.transform = "translateY(-20px) rotateX(6deg) scale(.96)";
+  win.style.opacity = "0";
+  setTimeout(() => { overlay.style.display = "none"; }, 260);
+}
 </script>
+
+
+    <ul class="features-list">
+      <li><a href="village.html">📍 गावाची माहिती</a></li>
+      <li><a href="yojana.html">📜 शासकीय योजना</a></li>
+      <li><a href="seva.html">💼 सेवा</a></li>
+      <li><a href="panchayat-info.html">🏛 ग्रामपंचायत माहिती</a></li>
+    </ul>
+
+  </div>
+</div>
 
 
 
