@@ -57,12 +57,13 @@
     <!-- small handle (instead of arrow/title) -->
     <div class="popup-handle" aria-hidden="true"></div>
 
-    <ul class="features-list">
-      <li><a href="village.html">📍 गावाची माहिती</a></li>
-      <li><a href="yojana.html">📜 शासकीय योजना</a></li>
-      <li><a href="seva.html">💼 सेवा</a></li>
-      <li><a href="panchayat-info.html">🏛 ग्रामपंचायत माहिती</a></li>
-    </ul>
+  <ul class="features-list">
+  <li id="google_translate_element"></li>
+  <li><a href="village.html">📍 गावाची माहिती</a></li>
+  <li><a href="yojana.html">📜 शासकीय योजना</a></li>
+  <li><a href="seva.html">💼 सेवा</a></li>
+  <li><a href="panchayat-info.html">🏛 ग्रामपंचायत माहिती</a></li>
+</ul>
 
   </div>
 </div>
@@ -91,6 +92,15 @@ function closePopup() {
 </script>
 
 
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+      { pageLanguage: 'mr', includedLanguages: 'mr,en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE },
+      'google_translate_element'
+    );
+  }
+</script>
   
 
 
@@ -219,4 +229,5 @@ function closePopup() {
 
 </body>
 </html>
+
 
