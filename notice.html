@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html>
+ <!DOCTYPE html>
+<html lang="mr">
 <head>
 <meta charset="UTF-8">
 <title>सूचना इतिहास</title>
 <style>
     body {
         font-family: "Noto Sans Devanagari", Arial, sans-serif;
-        background: linear-gradient(135deg, #f0f4f8, #d9e4ec);
+        background: linear-gradient(135deg, #f7f9fb, #e0e7ec);
         margin: 0;
         padding: 20px;
     }
@@ -63,8 +63,16 @@
 </div>
 
 <script>
-    async function loadNotices() {
+    // CHANGE THIS TO YOUR CSV LINK
         const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRYmHwVuXHgocGoP7p1evwN8HN5cGneUv4Di0KIkk7Djvr7gC6U3F3PMwa1dqbQebaXM5IN3yyd_7Ig/pub?gid=1382462655&single=true&output=csv";
+
+    function getDayName(dateStr) {
+        const days = ["रविवार", "सोमवार", "मंगळवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार"];
+        const dateObj = new Date(dateStr);
+        return days[dateObj.getDay()] || "वार नाही";
+    }
+
+    async function loadNotices() {
         try {
             const response = await fetch(csvUrl);
             const text = await response.text();
@@ -73,15 +81,18 @@
             const container = document.getElementById("noticeList");
             container.innerHTML = "";
 
-            // Loop through all rows (skip header if first row is column names)
-            for (let i = 1; i < lines.length; i++) {
+            // Start from latest notice
+            for (let i = lines.length - 1; i > 0; i--) {
                 const cols = lines[i].split(",");
 
-                const date = cols[0] || "तारीख नाही";
-                const time = cols[1] || "वेळ नाही";
-                const day = cols[2] || "वार नाही";
-                const notice = cols[3] || "सूचना नाही";
-                const submittedBy = cols[4] || "नाव नाही";
+                const date = cols[0] || "";
+                const notice = cols[1] || "";
+                const submittedBy = cols[2] || "";
+
+                if (!notice.trim()) continue; // Skip empty
+
+                const time = date ? new Date(date).toLocaleTimeString("mr-IN") : "वेळ नाही";
+                const day = date ? getDayName(date) : "वार नाही";
 
                 const card = document.createElement("div");
                 card.className = "notice-card";
@@ -105,4 +116,7 @@
 
 </body>
 </html>
+
+</html>
+
 
