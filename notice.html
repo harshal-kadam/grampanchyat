@@ -98,7 +98,9 @@
             const lines = text.trim().split("\n");
             const container = document.getElementById("noticeList");
             container.innerHTML = "";
-
+ // Show only name before @
+                if (submittedBy.includes("@")) {
+                    submittedBy = submittedBy.split("@")[0];
             for (let i = lines.length - 1; i > 0; i--) {
                 const cols = lines[i].split(",");
 
@@ -155,6 +157,7 @@
 
 
 </html>
+
 
 
 
