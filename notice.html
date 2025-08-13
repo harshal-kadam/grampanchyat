@@ -81,8 +81,7 @@
 </div>
 
 <script>
-    // CHANGE THIS TO YOUR CSV LINK
-   const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRYmHwVuXHgocGoP7p1evwN8HN5cGneUv4Di0KIkk7Djvr7gC6U3F3PMwa1dqbQebaXM5IN3yyd_7Ig/pub?gid=1382462655&single=true&output=csv";
+    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRYmHwVuXHgocGoP7p1evwN8HN5cGneUv4Di0KIkk7Djvr7gC6U3F3PMwa1dqbQebaXM5IN3yyd_7Ig/pub?gid=1382462655&single=true&output=csv";
 
     function getDayNameFromDateParts(day, month, year) {
         const days = ["रविवार", "सोमवार", "मंगळवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार"];
@@ -98,17 +97,20 @@
             const lines = text.trim().split("\n");
             const container = document.getElementById("noticeList");
             container.innerHTML = "";
- // Show only name before @
-                if (submittedBy.includes("@")) {
-                    submittedBy = submittedBy.split("@")[0];
+
             for (let i = lines.length - 1; i > 0; i--) {
                 const cols = lines[i].split(",");
 
                 const rawDateTime = cols[0] || ""; // Timestamp
                 const notice = cols[1] || "";
-                const submittedBy = cols[2] || "";
+                let submittedBy = cols[2] || "";
 
                 if (!notice.trim()) continue;
+
+                // Show only name before @
+                if (submittedBy.includes("@")) {
+                    submittedBy = submittedBy.split("@")[0];
+                }
 
                 let datePart = "तारीख उपलब्ध नाही";
                 let timePart = "वेळ उपलब्ध नाही";
@@ -149,14 +151,12 @@
 
     loadNotices();
 </script>
-
-
-
 </body>
 </html>
 
 
-</html>
+
+
 
 
 
