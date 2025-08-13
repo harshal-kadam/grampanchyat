@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Notice History</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+        text-shadow: 1px 1px 2px #aaa;
+    }
+
+    .notice-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        max-width: 800px;
+        margin: auto;
+    }
+
+    .notice-card {
+        background: white;
+        padding: 15px 20px;
+        border-radius: 15px;
+        box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        transform: perspective(1000px) rotateX(0deg);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .notice-card:hover {
+        transform: perspective(1000px) rotateX(3deg);
+        box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+    }
+
+    .notice-date {
+        font-size: 0.9em;
+        color: #666;
+        margin-bottom: 8px;
+    }
+
+    .notice-text {
+        font-size: 1.2em;
+        color: #222;
+    }
+</style>
+</head>
+<body>
+
+<h1>Notice History</h1>
+<div class="notice-container" id="noticeList">
+    <p>Loading notices...</p>
+</div>
+
+<script>
+    async function loadNotices() {
+        const csvUrl = "YOUR_CSV_LINK_HERE"; // Same CSV link from moving bar
+        try {
+            const response = await fetch(csvUrl);
+            const text = await response.text();
+
+            const lines = text.trim().split("\n");
+            const container = document.getElementById("noticeList");
+            container.innerHTML = "";
+
+            // Loop through all lines (skip header if first row is column names)
+            for (let i = 1; i < lines.length; i++) {
+                const cols = lines[i].split(",");
+                const date = cols[0] || "No Date";
+                const notice = cols[1] || "No Notice";
+
+                const card = document.createElement("div");
+                card.className = "notice-card";
+
+                card.innerHTML = `
+                    <div class="notice-date">${date}</div>
+                    <div class="notice-text">${notice}</div>
+                `;
+                container.appendChild(card);
+            }
+        } catch (error) {
+            document.getElementById("noticeList").innerHTML = "<p>Error loading notices.</p>";
+        }
+    }
+
+    loadNotices();
+</script>
+
+</body>
+</html>
