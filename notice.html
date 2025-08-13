@@ -2,11 +2,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Notice History</title>
+<title>सूचना इतिहास</title>
 <style>
     body {
-        font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        font-family: "Noto Sans Devanagari", Arial, sans-serif;
+        background: linear-gradient(135deg, #f0f4f8, #d9e4ec);
         margin: 0;
         padding: 20px;
     }
@@ -15,19 +15,19 @@
         text-align: center;
         color: #333;
         margin-bottom: 30px;
-        text-shadow: 1px 1px 2px #aaa;
+        text-shadow: 1px 1px 2px #bbb;
     }
 
     .notice-container {
         display: flex;
         flex-direction: column;
         gap: 20px;
-        max-width: 800px;
+        max-width: 850px;
         margin: auto;
     }
 
     .notice-card {
-        background: white;
+        background: #fff;
         padding: 15px 20px;
         border-radius: 15px;
         box-shadow: 0 8px 15px rgba(0,0,0,0.1);
@@ -40,28 +40,31 @@
         box-shadow: 0 12px 20px rgba(0,0,0,0.2);
     }
 
-    .notice-date {
-        font-size: 0.9em;
-        color: #666;
-        margin-bottom: 8px;
+    .label {
+        font-weight: bold;
+        color: #444;
     }
 
-    .notice-text {
-        font-size: 1.2em;
+    .value {
         color: #222;
+        font-size: 1.1em;
+    }
+
+    .line {
+        margin-bottom: 5px;
     }
 </style>
 </head>
 <body>
 
-<h1>Notice History</h1>
+<h1>सूचना इतिहास</h1>
 <div class="notice-container" id="noticeList">
-    <p>Loading notices...</p>
+    <p>सूचना लोड होत आहेत...</p>
 </div>
 
 <script>
     async function loadNotices() {
-        const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRYmHwVuXHgocGoP7p1evwN8HN5cGneUv4Di0KIkk7Djvr7gC6U3F3PMwa1dqbQebaXM5IN3yyd_7Ig/pub?gid=1382462655&single=true&output=csv";
+        const csvUrl = "YOUR_CSV_LINK_HERE"; // Same CSV link
         try {
             const response = await fetch(csvUrl);
             const text = await response.text();
@@ -70,23 +73,30 @@
             const container = document.getElementById("noticeList");
             container.innerHTML = "";
 
-            // Loop through all lines (skip header if first row is column names)
+            // Loop through all rows (skip header if first row is column names)
             for (let i = 1; i < lines.length; i++) {
                 const cols = lines[i].split(",");
-                const date = cols[0] || "No Date";
-                const notice = cols[1] || "No Notice";
+
+                const date = cols[0] || "तारीख नाही";
+                const time = cols[1] || "वेळ नाही";
+                const day = cols[2] || "वार नाही";
+                const notice = cols[3] || "सूचना नाही";
+                const submittedBy = cols[4] || "नाव नाही";
 
                 const card = document.createElement("div");
                 card.className = "notice-card";
 
                 card.innerHTML = `
-                    <div class="notice-date">${date}</div>
-                    <div class="notice-text">${notice}</div>
+                    <div class="line"><span class="label">दिनांक:</span> <span class="value">${date}</span></div>
+                    <div class="line"><span class="label">वेळ:</span> <span class="value">${time}</span></div>
+                    <div class="line"><span class="label">वार:</span> <span class="value">${day}</span></div>
+                    <div class="line"><span class="label">सूचना:</span> <span class="value">${notice}</span></div>
+                    <div class="line"><span class="label">सादरकर्ता:</span> <span class="value">${submittedBy}</span></div>
                 `;
                 container.appendChild(card);
             }
         } catch (error) {
-            document.getElementById("noticeList").innerHTML = "<p>Error loading notices.</p>";
+            document.getElementById("noticeList").innerHTML = "<p>सूचना लोड करण्यात त्रुटी आली.</p>";
         }
     }
 
