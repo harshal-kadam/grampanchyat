@@ -84,10 +84,10 @@
     // CHANGE THIS TO YOUR CSV LINK
    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRYmHwVuXHgocGoP7p1evwN8HN5cGneUv4Di0KIkk7Djvr7gC6U3F3PMwa1dqbQebaXM5IN3yyd_7Ig/pub?gid=1382462655&single=true&output=csv";
 
-    function getDayName(dateStr) {
+    function getDayNameFromDateParts(day, month, year) {
         const days = ["रविवार", "सोमवार", "मंगळवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार"];
-        const dateObj = new Date(dateStr);
-        return isNaN(dateObj) ? "वार उपलब्ध नाही" : days[dateObj.getDay()];
+        const dateObj = new Date(year, month - 1, day);
+        return days[dateObj.getDay()];
     }
 
     async function loadNotices() {
@@ -102,36 +102,39 @@
             for (let i = lines.length - 1; i > 0; i--) {
                 const cols = lines[i].split(",");
 
-                const dateStr = cols[0] || "";
+                const rawDateTime = cols[0] || ""; // Timestamp
                 const notice = cols[1] || "";
-                let submittedBy = cols[2] || "";
+                const submittedBy = cols[2] || "";
 
                 if (!notice.trim()) continue;
 
-                // Show only name before @
-                if (submittedBy.includes("@")) {
-                    submittedBy = submittedBy.split("@")[0];
-                }
-
-                let datePart = "";
+                let datePart = "तारीख उपलब्ध नाही";
                 let timePart = "वेळ उपलब्ध नाही";
+                let dayName = "वार उपलब्ध नाही";
 
-                if (dateStr) {
-                    const dateObj = new Date(dateStr);
+                if (rawDateTime.includes("/")) {
+                    // Format like DD/MM/YYYY HH:MM:SS
+                    const [date, time] = rawDateTime.split(" ");
+                    const [day, month, year] = date.split("/").map(Number);
+                    datePart = `${day}/${month}/${year}`;
+                    timePart = time || "वेळ उपलब्ध नाही";
+                    dayName = getDayNameFromDateParts(day, month, year);
+                } 
+                else if (rawDateTime.includes("-")) {
+                    // ISO format YYYY-MM-DDTHH:MM:SS
+                    const dateObj = new Date(rawDateTime);
                     if (!isNaN(dateObj)) {
                         datePart = dateObj.toLocaleDateString("mr-IN");
                         timePart = dateObj.toLocaleTimeString("mr-IN");
+                        dayName = getDayNameFromDateParts(dateObj.getDate(), dateObj.getMonth() + 1, dateObj.getFullYear());
                     }
                 }
 
-                const day = getDayName(dateStr);
-
                 const card = document.createElement("div");
                 card.className = "notice-card";
-
                 card.innerHTML = `
                     <div class="date-time">${datePart} ⏱ ${timePart}</div>
-                    <div class="day">(${day})</div>
+                    <div class="day">(${dayName})</div>
                     <div class="line"><span class="label">सूचना:</span> <span class="notice-text">${notice}</span></div>
                     <div class="line"><span class="label">सादरकर्ता:</span> <span class="value">${submittedBy}</span></div>
                 `;
@@ -144,6 +147,7 @@
 
     loadNotices();
 </script>
+
 
 
 </body>
