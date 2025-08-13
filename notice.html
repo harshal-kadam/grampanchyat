@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="mr">
 <head>
 <meta charset="UTF-8">
@@ -16,23 +16,25 @@
         color: #333;
         margin-bottom: 30px;
         text-shadow: 1px 1px 2px #bbb;
+        font-size: 2.2em;
     }
 
     .notice-container {
         display: flex;
         flex-direction: column;
         gap: 20px;
-        max-width: 850px;
+        max-width: 900px;
         margin: auto;
     }
 
     .notice-card {
         background: #fff;
-        padding: 15px 20px;
+        padding: 20px;
         border-radius: 15px;
         box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         transform: perspective(1000px) rotateX(0deg);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        font-size: 1.2em;
     }
 
     .notice-card:hover {
@@ -47,11 +49,27 @@
 
     .value {
         color: #222;
-        font-size: 1.1em;
     }
 
     .line {
-        margin-bottom: 5px;
+        margin-bottom: 8px;
+    }
+
+    .date-time {
+        font-size: 1.3em;
+        font-weight: bold;
+        color: #1a3d7c;
+    }
+
+    .day {
+        font-size: 1.2em;
+        color: #0d6d2f;
+        font-weight: bold;
+    }
+
+    .notice-text {
+        font-size: 1.2em;
+        color: #000;
     }
 </style>
 </head>
@@ -64,12 +82,12 @@
 
 <script>
     // CHANGE THIS TO YOUR CSV LINK
-        const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRYmHwVuXHgocGoP7p1evwN8HN5cGneUv4Di0KIkk7Djvr7gC6U3F3PMwa1dqbQebaXM5IN3yyd_7Ig/pub?gid=1382462655&single=true&output=csv";
+   const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRYmHwVuXHgocGoP7p1evwN8HN5cGneUv4Di0KIkk7Djvr7gC6U3F3PMwa1dqbQebaXM5IN3yyd_7Ig/pub?gid=1382462655&single=true&output=csv";
 
     function getDayName(dateStr) {
         const days = ["रविवार", "सोमवार", "मंगळवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार"];
         const dateObj = new Date(dateStr);
-        return days[dateObj.getDay()] || "वार नाही";
+        return isNaN(dateObj) ? "वार उपलब्ध नाही" : days[dateObj.getDay()];
     }
 
     async function loadNotices() {
@@ -81,27 +99,35 @@
             const container = document.getElementById("noticeList");
             container.innerHTML = "";
 
-            // Start from latest notice
             for (let i = lines.length - 1; i > 0; i--) {
                 const cols = lines[i].split(",");
 
-                const date = cols[0] || "";
+                const dateStr = cols[0] || "";
                 const notice = cols[1] || "";
                 const submittedBy = cols[2] || "";
 
-                if (!notice.trim()) continue; // Skip empty
+                if (!notice.trim()) continue;
 
-                const time = date ? new Date(date).toLocaleTimeString("mr-IN") : "वेळ नाही";
-                const day = date ? getDayName(date) : "वार नाही";
+                let datePart = "";
+                let timePart = "वेळ उपलब्ध नाही";
+
+                if (dateStr) {
+                    const dateObj = new Date(dateStr);
+                    if (!isNaN(dateObj)) {
+                        datePart = dateObj.toLocaleDateString("mr-IN");
+                        timePart = dateObj.toLocaleTimeString("mr-IN");
+                    }
+                }
+
+                const day = getDayName(dateStr);
 
                 const card = document.createElement("div");
                 card.className = "notice-card";
 
                 card.innerHTML = `
-                    <div class="line"><span class="label">दिनांक:</span> <span class="value">${date}</span></div>
-                    <div class="line"><span class="label">वेळ:</span> <span class="value">${time}</span></div>
-                    <div class="line"><span class="label">वार:</span> <span class="value">${day}</span></div>
-                    <div class="line"><span class="label">सूचना:</span> <span class="value">${notice}</span></div>
+                    <div class="date-time">${datePart} ⏱ ${timePart}</div>
+                    <div class="day">(${day})</div>
+                    <div class="line"><span class="label">सूचना:</span> <span class="notice-text">${notice}</span></div>
                     <div class="line"><span class="label">सादरकर्ता:</span> <span class="value">${submittedBy}</span></div>
                 `;
                 container.appendChild(card);
@@ -117,6 +143,8 @@
 </body>
 </html>
 
+
 </html>
+
 
 
