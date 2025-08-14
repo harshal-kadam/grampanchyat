@@ -10,47 +10,44 @@
   <link rel="stylesheet" href="style.css">
 <style>
  
-  .cube-container {
-    width: 300px;
-    height: 300px;
-    position: relative;
-    transform-style: preserve-3d;
-    animation: rotateCube 15s infinite linear;
-  }
-
-  .cube-face {
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    border-radius: 15px;
+   .slider-container {
+    width: 400px;
+    height: 250px;
     overflow: hidden;
-    backface-visibility: hidden;
+    border-radius: 15px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    perspective: 1000px;
   }
 
-  .cube-face img,
-  .cube-face video {
+  .slider-track {
+    display: flex;
+    width: calc(400px * 5); /* number of slides */
+    animation: slideLeft 15s linear infinite;
+  }
+
+  .slide {
+    width: 400px;
+    flex-shrink: 0;
+    height: 250px;
+    transform: rotateY(0deg);
+    transition: transform 0.5s;
+  }
+
+  .slide img,
+  .slide video {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 15px;
   }
 
-  /* Position each face */
-  .front  { transform: rotateY(0deg) translateZ(150px); }
-  .back   { transform: rotateY(180deg) translateZ(150px); }
-  .right  { transform: rotateY(90deg) translateZ(150px); }
-  .left   { transform: rotateY(-90deg) translateZ(150px); }
-  .top    { transform: rotateX(90deg) translateZ(150px); }
-  .bottom { transform: rotateX(-90deg) translateZ(150px); }
-
-  @keyframes rotateCube {
-    0%   { transform: rotateX(0deg) rotateY(0deg); }
-    16%  { transform: rotateX(0deg) rotateY(-90deg); }
-    33%  { transform: rotateX(0deg) rotateY(-180deg); }
-    50%  { transform: rotateX(0deg) rotateY(-270deg); }
-    66%  { transform: rotateX(-90deg) rotateY(-270deg); }
-    83%  { transform: rotateX(90deg) rotateY(-270deg); }
-    100% { transform: rotateX(0deg) rotateY(0deg); }
+  @keyframes slideLeft {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-400px); }
+    40% { transform: translateX(-800px); }
+    60% { transform: translateX(-1200px); }
+    80% { transform: translateX(-1600px); }
+    100% { transform: translateX(0); }
   }
 </style>
 </head>
@@ -161,24 +158,23 @@
    
 
     <p> ही ग्रामपंचायतची माहिती देणारी वेबसाईट आहे. येथे विविध सेवा व माहिती उपलब्ध आहे. </p>
-<div class="cube-container">
-  <div class="cube-face front">
-    <img src="image1.jpg" alt="Image 1">
-  </div>
-  <div class="cube-face back">
-    <img src="image2.jpg" alt="Image 2">
-  </div>
-  <div class="cube-face right">
-    <video src="video1.mp4" autoplay muted loop></video>
-  </div>
-  <div class="cube-face left">
-    <img src="image3.jpg" alt="Image 3">
-  </div>
-  <div class="cube-face top">
-    <video src="video2.mp4" autoplay muted loop></video>
-  </div>
-  <div class="cube-face bottom">
-    <img src="image4.jpg" alt="Image 4">
+<div class="slider-container">
+  <div class="slider-track">
+    <div class="slide">
+      <img src="image1.jpg" alt="Slide 1">
+    </div>
+    <div class="slide">
+      <video src="video1.mp4" autoplay muted loop></video>
+    </div>
+    <div class="slide">
+      <img src="image2.jpg" alt="Slide 2">
+    </div>
+    <div class="slide">
+      <video src="video2.mp4" autoplay muted loop></video>
+    </div>
+    <div class="slide">
+      <img src="image3.jpg" alt="Slide 3">
+    </div>
   </div>
 </div>
     <h1>1️⃣ "स्वच्छ, सुंदर आणि समृद्ध गाव — आपली ग्रामपंचायत, आपली शान!"</h1>
@@ -290,6 +286,7 @@
   <!-- ===== Footer End ===== -->
 </body>
 </html>
+
 
 
 
