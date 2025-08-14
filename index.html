@@ -23,53 +23,12 @@
     <div class="icons">
       <a href="index.html" title="Home"><i class="fas fa-house"></i></a>
       <a href="notice.html" title="Notifications"><i class="fas fa-bell"></i></a>
+    </div>   
 <!-- Language toggle buttons -->
 <div class="lang-switch">
   <a href="#" class="lang-btn" onclick="translatePage('en')">EN 🇬🇧</a>
   <a href="#" class="lang-btn" onclick="translatePage('mr')">MR 🇮🇳</a>
 </div>
-
-<!-- Hidden container for Google Translate -->
-<div id="google_translate_element" style="display:none;"></div>
-
-<!-- Google Translate JS -->
-<script type="text/javascript">
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'mr', 
-    includedLanguages: 'en,mr'
-  }, 'google_translate_element');
-}
-
-// Trigger Google Translate
-function translatePage(lang) {
-  var frame = document.querySelector('iframe.goog-te-menu-frame');
-  if(!frame){ // first time initialize
-    var gtScript = document.createElement('script');
-    gtScript.type = 'text/javascript';
-    gtScript.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-    document.body.appendChild(gtScript);
-    setTimeout(function(){ setLanguage(lang); }, 2000);
-  } else { 
-    setLanguage(lang); 
-  }
-}
-
-function setLanguage(lang) {
-  var frame = document.querySelector('iframe.goog-te-menu-frame');
-  if(frame){
-    var innerDoc = frame.contentDocument || frame.contentWindow.document;
-    var langLinks = innerDoc.querySelectorAll('a');
-    for(var i=0; i<langLinks.length; i++){
-      if(langLinks[i].textContent.toLowerCase().indexOf(lang) !== -1){
-        langLinks[i].click();
-        break;
-      }
-    }
-  }
-}
-    </div>
-  </div>
 </header>
 
 
@@ -116,7 +75,46 @@ function setLanguage(lang) {
         fetchNotice();
         setInterval(fetchNotice, 15000); // Refresh every 15 seconds
     </script>
+  <!-- Hidden container for Google Translate -->
+    <div id="google_translate_element" style="display:none;"></div>
 
+<!-- Google Translate JS -->
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'mr', 
+    includedLanguages: 'en,mr'
+  }, 'google_translate_element');
+}
+
+// Trigger Google Translate
+function translatePage(lang) {
+  var frame = document.querySelector('iframe.goog-te-menu-frame');
+  if(!frame){ // first time initialize
+    var gtScript = document.createElement('script');
+    gtScript.type = 'text/javascript';
+    gtScript.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+    document.body.appendChild(gtScript);
+    setTimeout(function(){ setLanguage(lang); }, 2000);
+  } else { 
+    setLanguage(lang); 
+  }
+}
+
+function setLanguage(lang) {
+  var frame = document.querySelector('iframe.goog-te-menu-frame');
+  if(frame){
+    var innerDoc = frame.contentDocument || frame.contentWindow.document;
+    var langLinks = innerDoc.querySelectorAll('a');
+    for(var i=0; i<langLinks.length; i++){
+      if(langLinks[i].textContent.toLowerCase().indexOf(lang) !== -1){
+        langLinks[i].click();
+        break;
+      }
+    }
+  }
+}
+    </div>
   <!-- Main Content -->
   <main>
     <h2>🌟 आपले स्वागत आहे! 🌟</h2>
@@ -446,6 +444,7 @@ function closePopup() {
 
 </body>
 </html>
+
 
 
 
