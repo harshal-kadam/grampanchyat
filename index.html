@@ -109,7 +109,28 @@
       function closePopup() { document.getElementById("popup").style.display = "none"; }
     </script>
 
+    <h2>आपले स्वागत आहे!</h2>
 
+    <!-- अधिक सुविधा बॉक्स -->
+    <div class="features-box" onclick="openPopup()">
+      <i class="fas fa-cog"></i>
+      <span>अधिक सुविधा पाहण्यासाठी येथे क्लिक करा</span>
+    </div>
+
+    <!-- पॉपअप -->
+    <div id="popup-overlay" class="popup-overlay" onclick="closePopup()">
+      <div class="popup-window" onclick="event.stopPropagation()">
+        <!-- small handle (instead of arrow/title) -->
+        <div class="popup-handle" aria-hidden="true"></div>
+        <ul class="features-list">
+          <li id="google_translate_element"></li>
+          <li><a href="village.html">📍 गावाची माहिती</a></li>
+          <li><a href="yojana.html">📜 शासकीय योजना</a></li>
+          <li><a href="seva.html">💼 सेवा</a></li>
+          <li><a href="panchayat-info.html">🏛 ग्रामपंचायत माहिती</a></li>
+        </ul>
+      </div>
+    </div>
 
     <script>
       function openPopup() {
@@ -252,4 +273,3 @@
   <!-- ===== Footer End ===== -->
 </body>
 </html>
-
