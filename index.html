@@ -9,8 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 <style>
- 
-   .slider-container {
+ .slider-container {
     width: 400px;
     height: 250px;
     overflow: hidden;
@@ -21,8 +20,8 @@
 
   .slider-track {
     display: flex;
-    width: calc(400px * 5); /* number of slides */
-    animation: slideLeft 15s linear infinite;
+    width: calc(400px * 8); /* doubled for seamless looping */
+    animation: slideLeft 20s linear infinite;
   }
 
   .slide {
@@ -30,7 +29,6 @@
     flex-shrink: 0;
     height: 250px;
     transform: rotateY(0deg);
-    transition: transform 0.5s;
   }
 
   .slide img,
@@ -43,11 +41,7 @@
 
   @keyframes slideLeft {
     0% { transform: translateX(0); }
-    20% { transform: translateX(-400px); }
-    40% { transform: translateX(-800px); }
-    60% { transform: translateX(-1200px); }
-    80% { transform: translateX(-1600px); }
-    100% { transform: translateX(0); }
+    100% { transform: translateX(-1600px); } /* move all original slides width */
   }
 </style>
 </head>
@@ -160,21 +154,16 @@
     <p> ही ग्रामपंचायतची माहिती देणारी वेबसाईट आहे. येथे विविध सेवा व माहिती उपलब्ध आहे. </p>
 <div class="slider-container">
   <div class="slider-track">
-    <div class="slide">
-      <img src="image1.jpg" alt="Slide 1">
-    </div>
-    <div class="slide">
-      <video src="video1.mp4" autoplay muted loop></video>
-    </div>
-    <div class="slide">
-      <img src="image2.jpg" alt="Slide 2">
-    </div>
-    <div class="slide">
-      <video src="video2.mp4" autoplay muted loop></video>
-    </div>
-    <div class="slide">
-      <img src="image3.jpg" alt="Slide 3">
-    </div>
+    <!-- Original slides -->
+    <div class="slide"><img src="image1.jpg" alt="Slide 1"></div>
+    <div class="slide"><img src="image2.jpg" alt="Slide 2"></div>
+    <div class="slide"><video src="video1.mp4" autoplay muted loop></video></div>
+    <div class="slide"><img src="image3.jpg" alt="Slide 3"></div>
+    <!-- Duplicate slides for seamless loop -->
+    <div class="slide"><img src="image1.jpg" alt="Slide 1"></div>
+    <div class="slide"><img src="image2.jpg" alt="Slide 2"></div>
+    <div class="slide"><video src="video1.mp4" autoplay muted loop></video></div>
+    <div class="slide"><img src="image3.jpg" alt="Slide 3"></div>
   </div>
 </div>
     <h1>1️⃣ "स्वच्छ, सुंदर आणि समृद्ध गाव — आपली ग्रामपंचायत, आपली शान!"</h1>
@@ -286,6 +275,7 @@
   <!-- ===== Footer End ===== -->
 </body>
 </html>
+
 
 
 
