@@ -56,7 +56,55 @@
   font-size: 20px;
 }
 
+ header h1 {
+      margin: 0;
+      font-size: 24px;
+      color: #5D4037;
+    }
 
+    .info-box {
+      background-color: #ffffff;
+      padding: 15px 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+      border-left: 6px solid #0077B6;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .info-box h3 {
+      color: #0077B6;
+      margin-top: 0;
+    }
+
+    ul {
+      margin-left: 20px;
+      padding-left: 10px;
+    }
+
+    a {
+      color: #0077B6;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .apply-btn {
+      display: inline-block;
+      margin-top: 30px;
+      background-color: #FF8F00;
+      color: white;
+      padding: 12px 24px;
+      font-size: 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .apply-btn:hover {
+      background-color: #e67600;
+    }
 </style>
 
 </head>
@@ -201,6 +249,58 @@
     <tr><td>महात्मा गांधी रोजगार हमी योजना (MGNREGA)</td><td>100 दिवस रोजगार हमी</td><td><a href="mgnrega.html" class="read-more">अधिक वाचा</a></td></tr>
     <tr><td>PMEGP</td><td>स्वतःचा व्यवसाय सुरू करण्यासाठी कर्ज व अनुदान</td><td><a href="pmegp.html" class="read-more">अधिक वाचा</a></td></tr>
   </table>
+<table id="yojanaTable" border="1" cellpadding="5" style="width:100%;">
+  <thead>
+    <tr><th>Scheme Name</th><th>Read More</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <span class="close" onclick="document.getElementById('popup').style.display='none'">&times;</span>
+    <h2 id="schemeTitle"></h2>
+    <ul id="schemeDetails"></ul>
+  </div>
+</div>
+<script>
+// Your Google Sheet CSV link
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRswuq7yVuHWljQRDJ9c9IaeVfzW6gLn_yy59ckqRIgcbPq3RozVv3naIRQhSLHGxD0JuKnTvhnyIV6/pubhtml"; // Replace with your actual link
+
+fetch(sheetURL)
+  .then(res => res.text())
+  .then(data => {
+    let rows = data.split("\n").slice(1); // skip header
+    let tableBody = document.querySelector("#yojanaTable tbody");
+
+    rows.forEach((row) => {
+      let cols = row.split(",");
+      if (cols[0]) {
+        let tr = document.createElement("tr");
+        tr.innerHTML = `<td>${cols[0]}</td>
+                        <td><button onclick="showPopup('${cols.join("||")}')">Read More</button></td>`;
+        tableBody.appendChild(tr);
+      }
+    });
+  });
+
+function showPopup(dataString) {
+  let data = dataString.split("||");
+  document.getElementById("schemeTitle").innerText = data[0];
+
+  let detailsHTML = `
+    <li><strong>Scheme Info:</strong> ${data[1]}</li>
+    <li><strong>Eligibility:</strong> ${data[2]}</li>
+    <li><strong>Beneficiaries:</strong> ${data[3]}</li>
+    <li><strong>How to Apply:</strong> ${data[4]}</li>
+    <li><strong>Required Documents:</strong> ${data[5]}</li>
+    <li><strong>More Info:</strong> <a href="${data[6]}" target="_blank">${data[6]}</a></li>
+    <li><strong>Apply Link:</strong> <a href="${data[7]}" target="_blank">${data[7]}</a></li>
+  `;
+  document.getElementById("schemeDetails").innerHTML = detailsHTML;
+  document.getElementById("popup").style.display = "block";
+}
+</script>
 
   </main>
 
@@ -211,4 +311,5 @@
 
 </body>
 </html>
+
 
