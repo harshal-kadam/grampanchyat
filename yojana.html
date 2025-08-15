@@ -35,76 +35,19 @@
  
 
 /* Popup Styles */
-.popup {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
-}
-.popup-content {
-  background: white;
-  margin: 5% auto;
-  padding: 20px;
-  width: 90%;
-  max-width: 500px;
-  border-radius: 10px;
-}
-.close {
-  float: right;
-  cursor: pointer;
-  font-size: 20px;
-}
-
- header h1 {
-      margin: 0;
-      font-size: 24px;
-      color: #5D4037;
-    }
-
-    .info-box {
-      background-color: #ffffff;
-      padding: 15px 20px;
-      margin: 20px 0;
-      border-radius: 10px;
-      border-left: 6px solid #0077B6;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    }
-
-    .info-box h3 {
-      color: #0077B6;
-      margin-top: 0;
-    }
-
-    ul {
-      margin-left: 20px;
-      padding-left: 10px;
-    }
-
-    a {
-      color: #0077B6;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .apply-btn {
-      display: inline-block;
-      margin-top: 30px;
-      background-color: #FF8F00;
-      color: white;
-      padding: 12px 24px;
-      font-size: 18px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .apply-btn:hover {
-      background-color: #e67600;
-    }
+h2 { background-color:#D0E8F2; padding:12px 20px; border-radius:10px; color:#003049; margin-top:30px; margin-bottom:15px; border-left:6px solid #0077B6; }
+h3 { background-color:#F1F3F5; padding:8px 16px; border-left:4px solid #ADB5BD; color:#2E2E2E; border-radius:6px; margin-top:25px; margin-bottom:10px; }
+table { width:100%; border-collapse: collapse; margin-bottom:30px; }
+th, td { border:1px solid #ccc; padding:10px; text-align:left; }
+th { background:#0077B6; color:#fff; }
+.read-more { color:#FF8F00; cursor:pointer; text-decoration:underline; }
+.popup { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:999; }
+.popup-content { background:#fff; width:100%; height:100%; overflow-y:auto; padding:30px 20px; position:relative; }
+.popup-content h2 { margin-top:0; }
+.back-arrow { position:absolute; top:10px; left:10px; font-size:24px; cursor:pointer; color:#0077B6; }
+.popup-content ul { margin-top:50px; }
+.popup-content li { margin-bottom:15px; font-size:16px; line-height:1.4; }
+</style>
 </style>
 
 </head>
@@ -251,36 +194,40 @@
   </table>
 
 
-<table id="yojanaTable" style="display:none;"></table> <!-- Hidden template -->
+
+<!-- Popup -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <i class="fas fa-arrow-left back-arrow" onclick="document.getElementById('popup').style.display='none'"></i>
+    <h2 id="schemeTitle"></h2>
+    <ul id="schemeDetails"></ul>
+  </div>
+</div>
 
 <script>
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRswuq7yVuHWljQRDJ9c9IaeVfzW6gLn_yy59ckqRIgcbPq3RozVv3naIRQhSLHGxD0JuKnTvhnyIV6/pub?output=csv";
 
-// Fetch CSV data
+// Fetch CSV
 fetch(sheetURL)
   .then(res => res.text())
   .then(data => {
     const rows = parseCSV(data).slice(1); // remove header
     const main = document.querySelector("main");
-
-    // Group schemes by category (column 0 = category)
     const categories = {};
+
+    // Group by category
     rows.forEach(cols => {
-      if(cols[0]) {
-        const category = cols[0];
-        if(!categories[category]) categories[category] = [];
-        categories[category].push(cols);
-      }
+      const category = cols[0];
+      if(!categories[category]) categories[category] = [];
+      categories[category].push(cols);
     });
 
-    // Create tables for each category
-    for (let category in categories) {
-      // Add heading
+    // Generate headings + tables
+    for(let category in categories){
       const h3 = document.createElement("h3");
       h3.innerText = category;
       main.appendChild(h3);
 
-      // Create table
       const table = document.createElement("table");
       table.innerHTML = `<tr><th>योजनेचे नाव</th><th>उद्दिष्ट</th><th>अधिक वाचा</th></tr>`;
       categories[category].forEach(scheme => {
@@ -288,7 +235,7 @@ fetch(sheetURL)
         tr.innerHTML = `
           <td>${scheme[1]}</td>
           <td>${scheme[2]}</td>
-          <td><button onclick='showPopup(${JSON.stringify(scheme)})'>अधिक वाचा</button></td>
+          <td><span class="read-more" onclick='showPopup(${JSON.stringify(scheme)})'>अधिक वाचा</span></td>
         `;
         table.appendChild(tr);
       });
@@ -296,34 +243,23 @@ fetch(sheetURL)
     }
   });
 
-// CSV parsing function
-function parseCSV(str) {
-  const rows = [];
-  let inQuotes = false, value = "", row = [];
-  for (let char of str) {
-    if (char === '"') {
-      inQuotes = !inQuotes;
-    } else if (char === ',' && !inQuotes) {
-      row.push(value.trim());
-      value = "";
-    } else if ((char === '\n' || char === '\r') && !inQuotes) {
-      if (value || row.length > 0) row.push(value.trim());
-      if(row.length) rows.push(row);
-      row = [];
-      value = "";
-    } else {
-      value += char;
-    }
+function parseCSV(str){
+  const rows=[]; let inQuotes=false, value="", row=[];
+  for(let char of str){
+    if(char=='"') inQuotes=!inQuotes;
+    else if(char==',' && !inQuotes){ row.push(value.trim()); value=""; }
+    else if((char=='\n'||char=='\r') && !inQuotes){ if(value||row.length) row.push(value.trim()); if(row.length) rows.push(row); row=[]; value=""; }
+    else value+=char;
   }
   if(value) row.push(value.trim());
   if(row.length) rows.push(row);
   return rows;
 }
 
-// Popup function (your existing)
-function showPopup(data) {
+// Popup
+function showPopup(data){
   document.getElementById("schemeTitle").innerText = data[1];
-  let detailsHTML = `
+  document.getElementById("schemeDetails").innerHTML = `
     <li><strong>उद्दिष्ट:</strong> ${data[2]}</li>
     <li><strong>पात्रता:</strong> ${data[3]}</li>
     <li><strong>लाभार्थी:</strong> ${data[4]}</li>
@@ -332,12 +268,9 @@ function showPopup(data) {
     <li><strong>अधिक माहिती दुवा:</strong> <a href="${data[7]}" target="_blank">${data[7]}</a></li>
     <li><strong>अर्ज करण्याचा दुवा:</strong> <a href="${data[8]}" target="_blank">${data[8]}</a></li>
   `;
-  document.getElementById("schemeDetails").innerHTML = detailsHTML;
-  document.getElementById("popup").style.display = "block";
+  document.getElementById("popup").style.display="block";
 }
 </script>
-
-
 
   </main>
 
@@ -348,6 +281,7 @@ function showPopup(data) {
 
 </body>
 </html>
+
 
 
 
