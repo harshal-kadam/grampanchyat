@@ -256,7 +256,6 @@ th { background:#0077B6; color:#fff; }
 </div>
 
 
-
 <script>
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRswuq7yVuHWljQRDJ9c9IaeVfzW6gLn_yy59ckqRIgcbPq3RozVv3naIRQhSLHGxD0JuKnTvhnyIV6/pub?output=csv";
 
@@ -297,8 +296,7 @@ fetch(sheetURL)
         tr.innerHTML = `
           <td>${scheme[1] || ""}</td>
           <td>${scheme[2] || ""}</td>
-          <td><span class="read-more" onclick='showPopup(${JSON.stringify(scheme)})'>अधिक वाचा</span>
-</td>
+          <td><span class="read-more" onclick='showPopup(${JSON.stringify(scheme)})'>अधिक वाचा</span></td>
         `;
         table.appendChild(tr);
       });
@@ -328,30 +326,26 @@ function parseCSV(str){
 
 // Show popup
 function showPopup(data) {
-  // Show the scheme title (last column in your sheet)
+  // Heading = last column dynamically
   document.getElementById("schemeTitle").innerText = data[data.length - 1] || "नाम उपलब्ध नाही";
 
-  // Labels for the points we want to display
-  const labels = ["उद्दिष्ट", "पात्रता", "लाभार्थी", "अर्ज कसा करावा", "आवश्यक कागदपत्रे", "अधिक माहिती दुवा"];
+  // Other details dynamically
   let detailsHTML = "";
-
-  // Start from column 2 (index 2) because column 0 = category, column 1 = scheme name
-  for (let i = 2; i < 8; i++) { // Only first 6 data columns
-    detailsHTML += `<li><strong>${labels[i-2]}:</strong> ${data[i] || "-"}</li>`;
+  const labels = ["उद्दिष्ट", "पात्रता", "लाभार्थी", "अर्ज कसा करावा", "आवश्यक कागदपत्रे", "अधिक माहिती दुवा"];
+  
+  for(let i=2; i< data.length - 1; i++){  // start from 2 to skip category & scheme name, last column is heading
+    detailsHTML += `<li><strong>${labels[i-2] || "तपशील"}:</strong> ${data[i] || "-"}</li>`;
   }
 
-  // Put the HTML inside popup
+  // Include last column again if needed
+  detailsHTML += `<li><strong>शीर्षक (अंतिम कॉलम):</strong> ${data[data.length - 1] || "-"}</li>`;
+
   document.getElementById("schemeDetails").innerHTML = detailsHTML;
 
-  // Link for apply button (optional: column 8 if you have a separate link)
+  // Apply link (if last column+1 exists)
   document.getElementById("applyLink").href = data[8] || "#";
 
-  // Show popup
   document.getElementById("popup").style.display = "block";
-}
-
-function closePopup() {
-  document.getElementById("popup").style.display = "none";
 }
 
 // Close popup
@@ -360,7 +354,7 @@ function closePopup() {
 }
 </script>
 
-</script>
+
 
   </main>
 
@@ -371,6 +365,7 @@ function closePopup() {
 
 </body>
 </html>
+
 
 
 
