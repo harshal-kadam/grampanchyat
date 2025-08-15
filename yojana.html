@@ -102,6 +102,24 @@ th { background:#0077B6; color:#fff; }
   width: 70%;
   color: #333;
 }
+/* Popup image styling */
+.popup-image {
+    width: 100%;           /* Full width of container */
+    max-width: 600px;      /* Max width on larger screens */
+    height: auto;          /* Maintain aspect ratio */
+    display: block;
+    margin: 15px auto;     /* Center image with top/bottom spacing */
+    border-radius: 10px;   /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Soft shadow */
+}
+
+/* Optional: mobile adjustments */
+@media (max-width: 480px) {
+    .popup-image {
+        margin: 10px auto;
+        border-radius: 6px;
+    }
+}
 
 </style>
 
@@ -142,6 +160,7 @@ th { background:#0077B6; color:#fff; }
 
   <!-- Main Content -->
   <main>
+<img src="your-image.jpg" alt="वर्णन" class="popup-image">
 
     <!-- योजनांचा भाग -->
     <h2>ग्रामपंचायतीच्या योजना – परिचय</h2>
@@ -334,6 +353,7 @@ function closePopup() {
 
 </body>
 </html>
+
 
 
 
