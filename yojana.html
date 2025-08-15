@@ -278,18 +278,18 @@ fetch(sheetURL)
 
     // Process each row
     rows.forEach(cols => {
-  const category = cols[0] ? cols[0].trim() : "";
-  const schemeName = cols[1] ? cols[1].trim() : "";
+      const category = cols[0] ? cols[0].trim() : "";
+      const schemeName = cols[1] ? cols[1].trim() : "";
 
-  // Skip empty rows, header rows, or metadata like Date/Time
-  if(!category || !schemeName) return;
-  if(schemeName.toLowerCase().includes("योजनेचे नाव")) return;
-  if(category.toLowerCase().includes("date") || category.toLowerCase().includes("time")) return;
+      // Skip empty rows, header rows, or metadata like Date/Time
+      if(!category || !schemeName) return;
+      if(schemeName.toLowerCase().includes("योजनेचे नाव")) return;
+      if(category.toLowerCase().includes("date") || category.toLowerCase().includes("time")) return;
 
-  // Add to category
-  if(!categories[category]) categories[category] = [];
-  categories[category].push(cols);
-});
+      // Add to category
+      if(!categories[category]) categories[category] = [];
+      categories[category].push(cols);
+    });
 
     // Generate headings + tables
     for(let category in categories){
@@ -334,18 +334,26 @@ function parseCSV(str){
 }
 
 // Show popup
-// Open popup with dynamic data
 function showPopup(data) {
-  document.getElementById("schemeTitle").innerText = data[1] || "नाम उपलब्ध नाही";
-  document.getElementById("schemeDetails").innerHTML = `
-    <li><strong>उद्दिष्ट:</strong> ${data[2] || "-"}</li>
-    <li><strong>पात्रता:</strong> ${data[3] || "-"}</li>
-    <li><strong>लाभार्थी:</strong> ${data[4] || "-"}</li>
-    <li><strong>अर्ज कसा करावा:</strong> ${data[5] || "-"}</li>
-    <li><strong>आवश्यक कागदपत्रे:</strong> ${data[6] || "-"}</li>
-    <li><strong>अधिक माहिती दुवा:</strong> <a href="${data[7] || "#"}" target="_blank">${data[7] || "N/A"}</a></li>
-  `;
+  // Heading = last column dynamically
+  document.getElementById("schemeTitle").innerText = data[data.length - 1] || "नाम उपलब्ध नाही";
+
+  // Other details dynamically
+  let detailsHTML = "";
+  const labels = ["उद्दिष्ट", "पात्रता", "लाभार्थी", "अर्ज कसा करावा", "आवश्यक कागदपत्रे", "अधिक माहिती दुवा"];
+  
+  for(let i=2; i< data.length - 1; i++){  // start from 2 to skip category & scheme name, last column is heading
+    detailsHTML += `<li><strong>${labels[i-2] || "तपशील"}:</strong> ${data[i] || "-"}</li>`;
+  }
+
+  // Include last column again if needed
+  detailsHTML += `<li><strong>शीर्षक (अंतिम कॉलम):</strong> ${data[data.length - 1] || "-"}</li>`;
+
+  document.getElementById("schemeDetails").innerHTML = detailsHTML;
+
+  // Apply link (if last column+1 exists)
   document.getElementById("applyLink").href = data[8] || "#";
+
   document.getElementById("popup").style.display = "block";
 }
 
@@ -353,6 +361,7 @@ function showPopup(data) {
 function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
+</script>
 
 </script>
 
@@ -365,6 +374,7 @@ function closePopup() {
 
 </body>
 </html>
+
 
 
 
