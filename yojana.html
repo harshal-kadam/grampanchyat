@@ -251,17 +251,18 @@ fetch(sheetURL)
 
     // Process each row
     rows.forEach(cols => {
-      const category = cols[0] ? cols[0].trim() : "";
-      const schemeName = cols[1] ? cols[1].trim() : "";
+  const category = cols[0] ? cols[0].trim() : "";
+  const schemeName = cols[1] ? cols[1].trim() : "";
 
-      // Skip empty rows or header rows
-      if(!category || !schemeName) return;
-      if(schemeName.toLowerCase().includes("योजनेचे नाव")) return;
+  // Skip empty rows, header rows, or metadata like Date/Time
+  if(!category || !schemeName) return;
+  if(schemeName.toLowerCase().includes("योजनेचे नाव")) return;
+  if(category.toLowerCase().includes("date") || category.toLowerCase().includes("time")) return;
 
-      // Add to category
-      if(!categories[category]) categories[category] = [];
-      categories[category].push(cols);
-    });
+  // Add to category
+  if(!categories[category]) categories[category] = [];
+  categories[category].push(cols);
+});
 
     // Generate headings + tables
     for(let category in categories){
@@ -330,6 +331,7 @@ function showPopup(data){
 
 </body>
 </html>
+
 
 
 
