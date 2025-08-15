@@ -256,51 +256,79 @@
   <tbody></tbody>
 </table>
 
-<div class="popup" id="popup">
-  <div class="popup-content">
-    <span class="close" onclick="document.getElementById('popup').style.display='none'">&times;</span>
-    <h2 id="schemeTitle"></h2>
-    <ul id="schemeDetails"></ul>
-  </div>
+<table id="yojanaTable" border="1" style="width:100%;border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th>योजना नाव</th>
+      <th>क्रिया</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<!-- Popup -->
+<div id="popup" style="display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%); background:#fff; padding:20px; border:2px solid #000; max-width:500px; z-index:999;">
+  <h2 id="schemeTitle"></h2>
+  <ul id="schemeDetails"></ul>
+  <button onclick="document.getElementById('popup').style.display='none'">बंद करा</button>
 </div>
+
 <script>
-// Your Google Sheet CSV link
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRswuq7yVuHWljQRDJ9c9IaeVfzW6gLn_yy59ckqRIgcbPq3RozVv3naIRQhSLHGxD0JuKnTvhnyIV6/pubhtml"; // Replace with your actual link
 
 fetch(sheetURL)
   .then(res => res.text())
   .then(data => {
-    let rows = data.split("\n").slice(1); // skip header
+    const rows = parseCSV(data).slice(1); // remove header
     let tableBody = document.querySelector("#yojanaTable tbody");
 
-    rows.forEach((row) => {
-      let cols = row.split(",");
+    rows.forEach((cols) => {
       if (cols[0]) {
         let tr = document.createElement("tr");
         tr.innerHTML = `<td>${cols[0]}</td>
-                        <td><button onclick="showPopup('${cols.join("||")}')">Read More</button></td>`;
+                        <td><button onclick='showPopup(${JSON.stringify(cols)})'>अधिक वाचा</button></td>`;
         tableBody.appendChild(tr);
       }
     });
   });
 
-function showPopup(dataString) {
-  let data = dataString.split("||");
-  document.getElementById("schemeTitle").innerText = data[0];
+function parseCSV(str) {
+  const rows = [];
+  let inQuotes = false, value = "", row = [];
+  for (let char of str) {
+    if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === ',' && !inQuotes) {
+      row.push(value);
+      value = "";
+    } else if (char === '\n' && !inQuotes) {
+      row.push(value);
+      rows.push(row);
+      row = [];
+      value = "";
+    } else {
+      value += char;
+    }
+  }
+  return rows;
+}
 
+function showPopup(data) {
+  document.getElementById("schemeTitle").innerText = data[0];
   let detailsHTML = `
-    <li><strong>Scheme Info:</strong> ${data[1]}</li>
-    <li><strong>Eligibility:</strong> ${data[2]}</li>
-    <li><strong>Beneficiaries:</strong> ${data[3]}</li>
-    <li><strong>How to Apply:</strong> ${data[4]}</li>
-    <li><strong>Required Documents:</strong> ${data[5]}</li>
-    <li><strong>More Info:</strong> <a href="${data[6]}" target="_blank">${data[6]}</a></li>
-    <li><strong>Apply Link:</strong> <a href="${data[7]}" target="_blank">${data[7]}</a></li>
+    <li><strong>योजनेचे तपशील:</strong> ${data[1]}</li>
+    <li><strong>पात्रता:</strong> ${data[2]}</li>
+    <li><strong>लाभार्थी:</strong> ${data[3]}</li>
+    <li><strong>अर्ज कसा करावा:</strong> ${data[4]}</li>
+    <li><strong>आवश्यक कागदपत्रे:</strong> ${data[5]}</li>
+    <li><strong>अधिक माहिती दुवा:</strong> <a href="${data[6]}" target="_blank">${data[6]}</a></li>
+    <li><strong>अर्ज करण्याचा दुवा:</strong> <a href="${data[7]}" target="_blank">${data[7]}</a></li>
   `;
   document.getElementById("schemeDetails").innerHTML = detailsHTML;
   document.getElementById("popup").style.display = "block";
 }
 </script>
+
 
   </main>
 
@@ -311,5 +339,6 @@ function showPopup(dataString) {
 
 </body>
 </html>
+
 
 
