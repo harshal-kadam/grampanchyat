@@ -40,47 +40,73 @@ h3 { background-color:#F1F3F5; padding:8px 16px; border-left:4px solid #ADB5BD; 
 table { width:100%; border-collapse: collapse; margin-bottom:30px; }
 th, td { border:1px solid #ccc; padding:10px; text-align:left; }
 th { background:#0077B6; color:#fff; }
-/* Full screen popup */
+/* Fullscreen popup */
 .popup {
   display: none;
   position: fixed;
-  top:0; left:0;
-  width:100%;
-  height:100%;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0,0,0,0.7);
   z-index: 999;
 }
 
+/* Popup content box */
 .popup-content {
-  background:#fff;
-  width:100%;
-  height:100%;
-  overflow-y:auto;
-  padding:30px 20px;
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 30px 20px;
   position: relative;
+  box-sizing: border-box;
 }
 
+/* Back arrow */
 .back-arrow {
-  position:absolute;
-  top:10px; left:10px;
+  position: absolute;
+  top: 15px;
+  left: 15px;
   font-size: 28px;
-  cursor:pointer;
-  color:#0077B6;
+  cursor: pointer;
+  color: #0077B6;
 }
 
+/* Title */
 .popup-content h2 {
-  margin-top:0;
-  color:#003049;
+  color: #5D4037;
+  margin-top: 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #FF9800;
 }
 
+/* List items */
 .popup-content ul {
-  margin-top:50px;
+  margin-top: 20px;
+  padding-left: 20px;
 }
 
 .popup-content li {
-  margin-bottom:15px;
-  font-size:16px;
-  line-height:1.5;
+  margin-bottom: 12px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Apply button */
+.apply-btn {
+  display: inline-block;
+  margin-top: 20px;
+  background-color: #FF8F00;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.apply-btn:hover {
+  background-color: #e67600;
 }
 </style>
 
@@ -232,9 +258,10 @@ th { background:#0077B6; color:#fff; }
 <!-- Popup -->
 <div class="popup" id="popup">
   <div class="popup-content">
-    <i class="fas fa-arrow-left back-arrow" onclick="document.getElementById('popup').style.display='none'"></i>
+    <i class="fas fa-arrow-left back-arrow" onclick="closePopup()"></i>
     <h2 id="schemeTitle"></h2>
     <ul id="schemeDetails"></ul>
+    <a id="applyLink" href="#" target="_blank" class="apply-btn">अर्ज करा</a>
   </div>
 </div>
 
@@ -307,7 +334,8 @@ function parseCSV(str){
 }
 
 // Show popup
-function showPopup(data){
+// Open popup with dynamic data
+function showPopup(data) {
   document.getElementById("schemeTitle").innerText = data[1] || "नाम उपलब्ध नाही";
   document.getElementById("schemeDetails").innerHTML = `
     <li><strong>उद्दिष्ट:</strong> ${data[2] || "-"}</li>
@@ -316,10 +344,16 @@ function showPopup(data){
     <li><strong>अर्ज कसा करावा:</strong> ${data[5] || "-"}</li>
     <li><strong>आवश्यक कागदपत्रे:</strong> ${data[6] || "-"}</li>
     <li><strong>अधिक माहिती दुवा:</strong> <a href="${data[7] || "#"}" target="_blank">${data[7] || "N/A"}</a></li>
-    <li><strong>अर्ज करण्याचा दुवा:</strong> <a href="${data[8] || "#"}" target="_blank">${data[8] || "N/A"}</a></li>
   `;
+  document.getElementById("applyLink").href = data[8] || "#";
   document.getElementById("popup").style.display = "block";
 }
+
+// Close popup
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
+}
+
 </script>
 
   </main>
@@ -331,6 +365,7 @@ function showPopup(data){
 
 </body>
 </html>
+
 
 
 
