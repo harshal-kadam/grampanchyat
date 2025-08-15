@@ -349,26 +349,30 @@ function parseCSV(str){
 
 // Show popup
 function showPopup(data) {
-  // Heading = last column dynamically
+  // Show the scheme title (last column in your sheet)
   document.getElementById("schemeTitle").innerText = data[data.length - 1] || "नाम उपलब्ध नाही";
 
-  // Other details dynamically
-  let detailsHTML = "";
+  // Labels for the points we want to display
   const labels = ["उद्दिष्ट", "पात्रता", "लाभार्थी", "अर्ज कसा करावा", "आवश्यक कागदपत्रे", "अधिक माहिती दुवा"];
-  
-  for(let i=2; i< data.length - 1; i++){  // start from 2 to skip category & scheme name, last column is heading
-    detailsHTML += `<li><strong>${labels[i-2] || "तपशील"}:</strong> ${data[i] || "-"}</li>`;
+  let detailsHTML = "";
+
+  // Start from column 2 (index 2) because column 0 = category, column 1 = scheme name
+  for (let i = 2; i < 8; i++) { // Only first 6 data columns
+    detailsHTML += `<li><strong>${labels[i-2]}:</strong> ${data[i] || "-"}</li>`;
   }
 
-  // Include last column again if needed
-  detailsHTML += `<li><strong>शीर्षक (अंतिम कॉलम):</strong> ${data[data.length - 1] || "-"}</li>`;
-
+  // Put the HTML inside popup
   document.getElementById("schemeDetails").innerHTML = detailsHTML;
 
-  // Apply link (if last column+1 exists)
+  // Link for apply button (optional: column 8 if you have a separate link)
   document.getElementById("applyLink").href = data[8] || "#";
 
+  // Show popup
   document.getElementById("popup").style.display = "block";
+}
+
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
 }
 
 // Close popup
@@ -388,6 +392,7 @@ function closePopup() {
 
 </body>
 </html>
+
 
 
 
