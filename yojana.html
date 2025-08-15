@@ -326,32 +326,33 @@ function parseCSV(str){
 
 // Show popup
 function showPopup(data) {
-  // Heading = last column dynamically
-  document.getElementById("schemeTitle").innerText = data[data.length - 1] || "नाम उपलब्ध नाही";
+  // Set popup heading (e.g., scheme name or last column)
+  document.getElementById("schemeTitle").innerText = data[1] || "नाम उपलब्ध नाही";
 
-  // Other details dynamically
-  let detailsHTML = "";
+  // Prepare details in row format
   const labels = ["उद्दिष्ट", "पात्रता", "लाभार्थी", "अर्ज कसा करावा", "आवश्यक कागदपत्रे", "अधिक माहिती दुवा"];
-  
-  for(let i=2; i< data.length - 1; i++){  // start from 2 to skip category & scheme name, last column is heading
-    detailsHTML += `<li><strong>${labels[i-2] || "तपशील"}:</strong> ${data[i] || "-"}</li>`;
+  let html = "";
+
+  for (let i = 2; i <= 7; i++) { // Columns 2 to 7
+    if (data[i]) {
+      html += `
+        <div class="detail-row">
+          <div class="label">${labels[i-2]}</div>
+          <div class="value">${data[i]}</div>
+        </div>
+      `;
+    }
   }
 
-  // Include last column again if needed
-  detailsHTML += `<li><strong>शीर्षक (अंतिम कॉलम):</strong> ${data[data.length - 1] || "-"}</li>`;
+  document.getElementById("schemeDetails").innerHTML = html;
 
-  document.getElementById("schemeDetails").innerHTML = detailsHTML;
-
-  // Apply link (if last column+1 exists)
+  // Apply button link if exists
   document.getElementById("applyLink").href = data[8] || "#";
 
+  // Show full screen popup
   document.getElementById("popup").style.display = "block";
 }
 
-// Close popup
-function closePopup() {
-  document.getElementById("popup").style.display = "none";
-}
 </script>
 
 
@@ -365,6 +366,7 @@ function closePopup() {
 
 </body>
 </html>
+
 
 
 
