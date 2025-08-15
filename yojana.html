@@ -41,6 +41,7 @@ table { width:100%; border-collapse: collapse; margin-bottom:30px; }
 th, td { border:1px solid #ccc; padding:10px; text-align:left; }
 th { background:#0077B6; color:#fff; }
 /* Fullscreen popup */
+/* Popup overlay */
 .popup {
   display: none;
   position: fixed;
@@ -49,15 +50,15 @@ th { background:#0077B6; color:#fff; }
   height: 100%;
   background: rgba(0,0,0,0.7);
   z-index: 999;
+  overflow-y: auto;
 }
 
-/* Popup content box */
+/* Popup content box (uses info-box class) */
 .popup-content {
-  background-color: #fff;
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  padding: 30px 20px;
+  width: 90%;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
   position: relative;
   box-sizing: border-box;
 }
@@ -71,33 +72,43 @@ th { background:#0077B6; color:#fff; }
   cursor: pointer;
   color: #0077B6;
 }
+.info-box {
+  background-color: #ffffff;
+  padding: 15px 20px;
+  margin: 20px 0;
+  border-radius: 10px;
+  border-left: 6px solid #0077B6;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
 
-/* Title */
-.popup-content h2 {
-  color: #5D4037;
+.info-box h3 {
+  color: #0077B6;
   margin-top: 0;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #FF9800;
 }
 
-/* List items */
-.popup-content ul {
-  margin-top: 20px;
-  padding-left: 20px;
+ul {
+  margin-left: 20px;
+  padding-left: 10px;
 }
 
-.popup-content li {
-  margin-bottom: 12px;
-  font-size: 16px;
-  line-height: 1.5;
+ul li {
+  margin-bottom: 10px;
 }
 
-/* Apply button */
+a {
+  color: #0077B6;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 .apply-btn {
   display: inline-block;
   margin-top: 20px;
   background-color: #FF8F00;
-  color: #fff;
+  color: white;
   padding: 12px 24px;
   font-size: 18px;
   border-radius: 6px;
@@ -108,6 +119,7 @@ th { background:#0077B6; color:#fff; }
 .apply-btn:hover {
   background-color: #e67600;
 }
+
 </style>
 
 
@@ -257,13 +269,14 @@ th { background:#0077B6; color:#fff; }
 
 <!-- Popup -->
 <div class="popup" id="popup">
-  <div class="popup-content">
+  <div class="popup-content info-box">
     <i class="fas fa-arrow-left back-arrow" onclick="closePopup()"></i>
-    <h2 id="schemeTitle"></h2>
+    <h3 id="schemeTitle">शीर्षक</h3>
     <ul id="schemeDetails"></ul>
     <a id="applyLink" href="#" target="_blank" class="apply-btn">अर्ज करा</a>
   </div>
 </div>
+
 
 <script>
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRswuq7yVuHWljQRDJ9c9IaeVfzW6gLn_yy59ckqRIgcbPq3RozVv3naIRQhSLHGxD0JuKnTvhnyIV6/pub?output=csv";
@@ -305,7 +318,8 @@ fetch(sheetURL)
         tr.innerHTML = `
           <td>${scheme[1] || ""}</td>
           <td>${scheme[2] || ""}</td>
-          <td><span class="read-more" onclick='showPopup(${JSON.stringify(scheme)})'>अधिक वाचा</span></td>
+          <td><span class="read-more" onclick='showPopup(${JSON.stringify(scheme)})'>अधिक वाचा</span>
+</td>
         `;
         table.appendChild(tr);
       });
@@ -374,6 +388,7 @@ function closePopup() {
 
 </body>
 </html>
+
 
 
 
