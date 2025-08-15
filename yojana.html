@@ -42,6 +42,7 @@ th, td { border:1px solid #ccc; padding:10px; text-align:left; }
 th { background:#0077B6; color:#fff; }
 /* Fullscreen popup */
 /* Popup overlay */
+/* Fullscreen popup overlay */
 .popup {
   display: none;
   position: fixed;
@@ -53,14 +54,16 @@ th { background:#0077B6; color:#fff; }
   overflow-y: auto;
 }
 
-/* Popup content box (uses info-box class) */
+/* Popup content box */
 .popup-content {
   width: 90%;
-  max-width: 700px;
+  max-width: 800px;
   margin: 40px auto;
-  padding: 20px;
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
   position: relative;
-  box-sizing: border-box;
 }
 
 /* Back arrow */
@@ -72,52 +75,27 @@ th { background:#0077B6; color:#fff; }
   cursor: pointer;
   color: #0077B6;
 }
-.info-box {
-  background-color: #ffffff;
-  padding: 15px 20px;
-  margin: 20px 0;
-  border-radius: 10px;
-  border-left: 6px solid #0077B6;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+
+/* Row style for details */
+.detail-row {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
 }
 
-.info-box h3 {
-  color: #0077B6;
-  margin-top: 0;
+.detail-row:last-child {
+  border-bottom: none;
 }
 
-ul {
-  margin-left: 20px;
-  padding-left: 10px;
-}
-
-ul li {
-  margin-bottom: 10px;
-}
-
-a {
-  color: #0077B6;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-.apply-btn {
-  display: inline-block;
-  margin-top: 20px;
-  background-color: #FF8F00;
-  color: white;
-  padding: 12px 24px;
-  font-size: 18px;
-  border-radius: 6px;
-  text-decoration: none;
+.detail-row .label {
+  width: 30%;
   font-weight: bold;
+  color: #0077B6;
 }
 
-.apply-btn:hover {
-  background-color: #e67600;
+.detail-row .value {
+  width: 70%;
+  color: #333;
 }
 
 </style>
@@ -267,15 +245,16 @@ a:hover {
   </table>
 
 
-<!-- Popup -->
+<!-- Full-Screen Popup -->
 <div class="popup" id="popup">
   <div class="popup-content info-box">
     <i class="fas fa-arrow-left back-arrow" onclick="closePopup()"></i>
     <h3 id="schemeTitle">शीर्षक</h3>
-    <ul id="schemeDetails"></ul>
+    <div id="schemeDetails"></div>
     <a id="applyLink" href="#" target="_blank" class="apply-btn">अर्ज करा</a>
   </div>
 </div>
+
 
 
 <script>
@@ -392,6 +371,7 @@ function closePopup() {
 
 </body>
 </html>
+
 
 
 
