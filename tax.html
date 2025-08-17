@@ -9,8 +9,68 @@ body{font-family:"Noto Sans Devanagari",Arial,sans-serif;margin:0;background:#f9
 header{background:linear-gradient(135deg,#8fc1e3,#c1f0d1);color:#333;padding:15px;text-align:center;position:relative;}
 header h1{margin:0;font-size:22px;}
 .lang-switch{position:absolute;right:15px;top:15px;padding:5px 10px;cursor:pointer;background:#fff;border-radius:5px;border:1px solid #ccc;font-size:14px;}
-footer{background:#eee;color:#333;text-align:center;padding:12px;margin-top:auto;font-size:14px;}
-.container{padding:20px;flex:1;}
+
+/* Footer */
+ footer {
+    background: linear-gradient(135deg, #1a3d7c, #0d6d2f);
+    color: #fff;
+    padding: 20px 0 10px 0;
+    font-family: "Noto Sans Devanagari", Arial, sans-serif;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 1000px;
+    margin: auto;
+    padding: 0 10px;
+}
+
+.footer-section {
+    flex: 1 1 250px;
+    margin: 10px;
+}
+
+.footer-section h3,
+.footer-section h4 {
+    margin-bottom: 10px;
+    border-bottom: 2px solid #fff;
+    display: inline-block;
+    padding-bottom: 3px;
+}
+
+.footer-section p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin: 5px 0;
+}
+
+.footer-section ul li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #ffd700;
+}
+
+.footer-bottom {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.3);
+    padding-top: 10px;
+}.container{padding:20px;flex:1;}
 .search-bar{width:100%;max-width:400px;padding:10px;margin:20px auto;display:block;border-radius:8px;border:1px solid #ccc;font-size:16px;}
 .user-list{max-width:600px;margin:auto;}
 .user-item{background:#fff;padding:12px 15px;margin:8px 0;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.1);cursor:pointer;transition:.3s ease;}
@@ -201,4 +261,5 @@ document.getElementById("cRemain").innerText=(d.harpi+d.arogya+d.dababi+d.pani+d
 
 </body>
 </html>
+
 
