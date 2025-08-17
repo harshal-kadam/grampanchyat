@@ -92,9 +92,22 @@ header h1{margin:0;font-size:22px;}
 </head>
 <body>
 
-<header>
-<h1 id="headerTitle">🌐 ग्रामपंचायत सेतू</h1>
-<button class="lang-switch" onclick="switchLang()">EN</button>
+<!-- ===== Header Start ===== -->
+<header class="webapp-header">
+  <div class="logo-section">
+    <div class="logo-title">
+      <img src="logo.jpg" alt="Logo" class="logo">
+      <div class="title-text">
+        <h1>कामेगाव ग्रामपंचायत</h1>
+        <p>आपले गाव, आपली जबाबदारी</p>
+      </div>
+    </div>
+    <div class="icons">
+      <a href="index.html" title="Home"><i class="fas fa-house"></i></a>
+      <a href="notice.html" title="Notifications"><i class="fas fa-bell"></i></a>
+      <a href="login.html" title="Login"><i class="fas fa-user-circle"></i></a>
+    </div>
+  </div>
 </header>
 <button class="lang-switch" onclick="switchLang()">EN</button>
 
@@ -262,6 +275,7 @@ document.getElementById("cRemain").innerText=(d.harpi+d.arogya+d.dababi+d.pani+d
 
 </body>
 </html>
+
 
 
 
