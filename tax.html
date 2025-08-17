@@ -203,4 +203,80 @@ fetch(csvURL)
   usersData = rows.slice(1).map(r=>{
     let obj = {};
     r.forEach((c,i)=>{ obj[headers[i]] = c.trim(); });
-    obj.
+    obj.demand = {
+      harpi: Number(obj.House_Tax||0),
+      arogya: Number(obj.Health_Tax||0),
+      dababi: Number(obj.Other_Tax||0),
+      pani: Number(obj.Water_Tax||0),
+      pad: Number(obj.Land_Tax||0),
+      fine: Number(obj.Penalty||0)
+    };
+    obj.collection = {
+      book: obj.Book_No||'',
+      receipt: obj.Receipt_No||'',
+      date: obj.Receipt_Date||'',
+      harpi: Number(obj.Paid_House_Tax||0),
+      arogya: Number(obj.Paid_Health_Tax||0),
+      dababi: Number(obj.Paid_Other_Tax||0),
+      pani: Number(obj.Paid_Water_Tax||0),
+      padLand: Number(obj.Paid_Land_Tax||0),
+      finePaid: Number(obj.Paid_Penalty||0),
+      sut: Number(obj.Discount||0)
+    };
+    return obj;
+  });
+  displayUsers(usersData);
+}).catch(e=>console.error(e));
+
+// Search
+document.getElementById('searchBar').addEventListener('input', function(){
+  const q = this.value.toLowerCase();
+  displayUsers(usersData.filter(u => (lang==='mr'? u.Name_Marathi : u.Name_English).toLowerCase().includes(q)));
+});
+
+function displayUsers(users){
+  const userList = document.getElementById('userList');
+  userList.innerHTML = '';
+  users.forEach(u=>{
+    const div = document.createElement('div');
+    div.className='user-item';
+    div.innerText = lang==='mr' ? u.Name_Marathi : u.Name_English;
+    div.onclick = ()=>openPopup(u);
+    userList.appendChild(div);
+  });
+}
+
+function openPopup(u){
+  document.getElementById('popup').style.display='block';
+  document.getElementById("popupImg").src="https://cdn-icons-png.flaticon.com/512/149/149071.png";
+  document.getElementById("popupNameMr").innerText = u.Name_Marathi;
+  document.getElementById("popupNameEn").innerText = u.Name_English;
+  document.getElementById("popupWard").innerText = `🏠 वार्ड नं. ${u.Ward_No}, घर नं. ${u.House_No}`;
+
+  let d = u.demand;
+  document.getElementById("dHarpi").innerText=d.harpi;
+  document.getElementById("dArogya").innerText=d.arogya;
+  document.getElementById("dDababi").innerText=d.dababi;
+  document.getElementById("dPani").innerText=d.pani;
+  document.getElementById("dPad").innerText=d.pad;
+  document.getElementById("dFine").innerText=d.fine;
+  document.getElementById("dTotal").innerText=d.harpi+d.arogya+d.dababi+d.pani+d.pad+d.fine;
+
+  let c = u.collection;
+  document.getElementById("cBook").innerText=c.book;
+  document.getElementById("cReceipt").innerText=c.receipt;
+  document.getElementById("cDate").innerText=c.date;
+  document.getElementById("cHarpi").innerText=c.harpi;
+  document.getElementById("cArogya").innerText=c.arogya;
+  document.getElementById("cDababi").innerText=c.dababi;
+  document.getElementById("cPani").innerText=c.pani;
+  document.getElementById("cPadLand").innerText=c.padLand;
+  document.getElementById("cFinePaid").innerText=c.finePaid;
+  document.getElementById("cDiscount").innerText=c.sut;
+  document.getElementById("cTotalCollection").innerText=c.harpi+c.arogya+c.dababi+c.pani+c.padLand+c.finePaid-c.sut;
+  document.getElementById("cRemain").innerText=(d.harpi+d.arogya+d.dababi+d.pani+d.pad+d.fine)-(c.harpi+c.arogya+c.dababi+c.pani+c.padLand+c.finePaid-c.sut);
+}
+</script>
+
+</body>
+</html>
