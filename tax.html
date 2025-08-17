@@ -106,7 +106,20 @@ header.webapp-header {
     font-size: 14px;
   }
 }
-.lang-switch{position:absolute;right:15px;top:15px;padding:5px 10px;cursor:pointer;background:#fff;border-radius:5px;border:1px solid #ccc;font-size:14px;}
+.lang-switch {
+  cursor: pointer;
+  background: #fff;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  padding: 5px 10px;
+  transition: 0.3s;
+}
+
+.lang-switch:hover {
+  background: #e0f0ff;
+  border-color: #0D47A1;
+}
 
 /* Footer */
  footer {
@@ -190,13 +203,12 @@ header.webapp-header {
 </head>
 <body>
 
-<!-- ===== Header Start ===== -->
 <header class="webapp-header">
   <div class="logo-section">
     <div class="logo-title">
       <img src="logo.jpg" alt="Logo" class="logo">
       <div class="title-text">
-        <h1>कामेगाव ग्रामपंचायत</h1>
+        <h1 id="headerTitle">कामेगाव ग्रामपंचायत</h1>
         <p>आपले गाव, आपली जबाबदारी</p>
       </div>
     </div>
@@ -204,10 +216,12 @@ header.webapp-header {
       <a href="index.html" title="Home"><i class="fas fa-house"></i></a>
       <a href="notice.html" title="Notifications"><i class="fas fa-bell"></i></a>
       <a href="login.html" title="Login"><i class="fas fa-user-circle"></i></a>
-      <button class="lang-switch" onclick="switchLang()">EN</button>
+      <!-- Lang switch button -->
+      <button id="langBtn" class="lang-switch">EN</button>
     </div>
   </div>
 </header>
+
 <button class="lang-switch" onclick="switchLang()">EN</button>
 
 <div class="container">
@@ -283,12 +297,28 @@ header.webapp-header {
 <!-- Include PapaParse from CDN -->
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script>
-let lang='mr', usersData=[];
+let lang = 'mr';
 
-function switchLang(){lang=(lang==='mr')?'en':'mr';
-document.getElementById('headerTitle').innerText=(lang==='mr')?"🌐 ग्रामपंचायत सेतू":"🌐 Gram Panchayat Setu";
-document.getElementById('searchBar').placeholder=(lang==='mr')?"🔍 नाव शोधा":"🔍 Search name";
-displayUsers(usersData);}
+document.getElementById('langBtn').addEventListener('click', function() {
+  lang = (lang === 'mr') ? 'en' : 'mr';
+
+  // Update header title
+  document.getElementById('headerTitle').innerText = (lang === 'mr') 
+    ? "कामेगाव ग्रामपंचायत" 
+    : "Kamegaon Gram Panchayat";
+
+  // Update search placeholder
+  document.getElementById('searchBar').placeholder = (lang === 'mr') 
+    ? "🔍 नाव शोधा" 
+    : "🔍 Search name";
+
+  // Refresh user list
+  displayUsers(usersData);
+
+  // Update button text
+  this.innerText = (lang === 'mr') ? "EN" : "MR";
+});
+
 
 function closePopup(){document.getElementById('popup').style.display='none';}
 
@@ -374,6 +404,7 @@ document.getElementById("cRemain").innerText=(d.harpi+d.arogya+d.dababi+d.pani+d
 
 </body>
 </html>
+
 
 
 
