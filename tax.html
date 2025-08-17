@@ -6,8 +6,106 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body{font-family:"Noto Sans Devanagari",Arial,sans-serif;margin:0;background:#f9f9f9;display:flex;flex-direction:column;min-height:100vh;}
-header{background:linear-gradient(135deg,#8fc1e3,#c1f0d1);color:#333;padding:15px;text-align:center;position:relative;}
-header h1{margin:0;font-size:22px;}
+/* HEADER ONLY */
+
+header.webapp-header {
+  background: linear-gradient(120deg, #b3e5fc, #81d4fa);
+  padding: 20px 30px;
+  border-bottom-left-radius: 80px;
+  border-bottom-right-radius: 80px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  color: #0D47A1;
+  animation: fadeInHeader 1.2s ease-in-out;
+}
+
+/* Header animation */
+@keyframes fadeInHeader {
+  0% { opacity: 0; transform: translateY(-30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Header layout */
+.logo-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/* Logo title area */
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Logo image */
+.logo {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  border-radius: 12px;
+  background-color: white;
+  padding: 5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Title text */
+.title-text h1 {
+  font-size: 26px;
+  margin: 0;
+  color: #0D47A1;
+}
+
+.title-text p {
+  margin: 2px 0 0;
+  font-size: 16px;
+  color: #01579B;
+}
+
+/* Header Icons */
+.icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  font-size: 22px;
+  color: #0D47A1;
+  margin-top: 10px;
+}
+
+.icons a {
+  color: #0D47A1;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.icons a:hover {
+  color: #FF5722;
+}
+
+/* Responsive for mobile */
+@media (max-width: 600px) {
+  .logo-section {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .icons {
+    justify-content: center;
+    font-size: 20px;
+  }
+
+  .title-text h1 {
+    font-size: 22px;
+  }
+
+  .title-text p {
+    font-size: 14px;
+  }
+}
 .lang-switch{position:absolute;right:15px;top:15px;padding:5px 10px;cursor:pointer;background:#fff;border-radius:5px;border:1px solid #ccc;font-size:14px;}
 
 /* Footer */
@@ -275,6 +373,7 @@ document.getElementById("cRemain").innerText=(d.harpi+d.arogya+d.dababi+d.pani+d
 
 </body>
 </html>
+
 
 
 
