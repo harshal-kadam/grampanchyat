@@ -5,29 +5,124 @@
 <title>ग्रामपंचायत सेतू - Search Records</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body { font-family: "Noto Sans Devanagari", Arial, sans-serif; margin:0; background:#f9f9f9; display:flex; flex-direction:column; min-height:100vh; }
-header { background:linear-gradient(135deg,#8fc1e3,#c1f0d1); color:#333; padding:15px; text-align:center; position:relative; }
-header h1 { margin:0; font-size:22px; }
-.lang-switch { position:absolute; right:15px; top:15px; padding:5px 10px; cursor:pointer; background:#fff; border-radius:5px; border:1px solid #ccc; font-size:14px; }
-footer { background:#eee; color:#333; text-align:center; padding:12px; margin-top:auto; font-size:14px; }
-.container { padding:20px; flex:1; }
-.search-bar { width:100%; max-width:400px; padding:10px; margin:20px auto; display:block; border-radius:8px; border:1px solid #ccc; font-size:16px; }
-.user-list { max-width:600px; margin:auto; }
-.user-item { background:#fff; padding:12px 15px; margin:8px 0; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); cursor:pointer; transition:0.3s ease; }
-.user-item:hover { background:#e0f7fa; }
-.popup { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.2); z-index:1000; overflow-y:auto; }
-.popup-content { background:#fff; margin:50px auto; max-width:600px; border-radius:10px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.2); }
-.popup-header { background:linear-gradient(135deg,#8fc1e3,#c1f0d1); color:#333; text-align:center; padding:20px; position:relative; }
-.popup-header img { width:100px; height:100px; border-radius:50%; border:3px solid #fff; margin-bottom:10px; }
-.popup-header h2 { margin:5px 0; font-size:22px; }
-.popup-header h3 { margin:2px 0; font-size:16px; font-weight:normal; }
-.popup-header p { margin:4px 0; font-size:15px; }
-.close-btn { position:absolute; top:10px; right:10px; background:#fff; border:none; font-size:20px; padding:5px 10px; border-radius:50%; cursor:pointer; color:#333; }
-.section { background:#fdfdfd; margin:15px; padding:15px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.05); }
-.section h4 { margin:0 0 10px; font-size:18px; color:#333; border-bottom:1px solid #ddd; padding-bottom:5px; }
-.section p { margin:6px 0; font-size:15px; }
-.highlight { font-weight:bold; color:#d32f2f; font-size:16px; }
-.paid-highlight { font-weight:bold; color:#388e3c; font-size:16px; }
+body {
+  font-family: "Noto Sans Devanagari", Arial, sans-serif;
+  margin: 0;
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+header {
+  background: linear-gradient(135deg, #8fc1e3, #c1f0d1);
+  color: #333;
+  padding: 15px;
+  text-align: center;
+  position: relative;
+}
+header h1 { margin: 0; font-size: 22px; }
+.lang-switch {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  padding: 5px 10px;
+  cursor: pointer;
+  background: #fff;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+footer {
+  background: #eee;
+  color: #333;
+  text-align: center;
+  padding: 12px;
+  margin-top: auto;
+  font-size: 14px;
+}
+.container { padding: 20px; flex: 1; }
+.search-bar {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  margin: 20px auto;
+  display: block;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+.user-list { max-width: 600px; margin: auto; }
+.user-item {
+  background: #fff;
+  padding: 12px 15px;
+  margin: 8px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.user-item:hover { background: #e0f7fa; }
+.popup {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.2);
+  z-index: 1000;
+  overflow-y: auto;
+}
+.popup-content {
+  background: #fff;
+  margin: 50px auto;
+  max-width: 600px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.popup-header {
+  background: linear-gradient(135deg, #8fc1e3, #c1f0d1);
+  color: #333;
+  text-align: center;
+  padding: 20px;
+  position: relative;
+}
+.popup-header img {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  margin-bottom: 10px;
+}
+.popup-header h2 { margin: 5px 0; font-size: 22px; }
+.popup-header h3 { margin: 2px 0; font-size: 16px; font-weight: normal; }
+.popup-header p { margin: 4px 0; font-size: 15px; }
+.close-btn {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: #fff;
+  border: none;
+  font-size: 20px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #333;
+}
+.section {
+  background: #fdfdfd;
+  margin: 15px;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.section h4 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+.section p { margin: 6px 0; font-size: 15px; }
+.highlight { font-weight: bold; color: #d32f2f; font-size: 16px; }
+.paid-highlight { font-weight: bold; color: #388e3c; font-size: 16px; }
 </style>
 </head>
 <body>
@@ -83,103 +178,29 @@ footer { background:#eee; color:#333; text-align:center; padding:12px; margin-to
   <p>© 2025 ग्रामपंचायत सेतू | All Rights Reserved</p>
 </footer>
 
-<!-- PapaParse CDN -->
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script>
-let lang='mr', usersData=[];
-const userList=document.getElementById("userList");
+let lang = 'mr';
+let usersData = [];
 
-function switchLang(){
-  lang=(lang==='mr')?'en':'mr';
-  document.getElementById('headerTitle').innerText = (lang==='mr')?"🌐 ग्रामपंचायत सेतू":"🌐 Gram Panchayat Setu";
-  document.getElementById('searchBar').placeholder=(lang==='mr')?"🔍 नाव शोधा":"🔍 Search name";
+function switchLang() {
+  lang = (lang==='mr') ? 'en' : 'mr';
+  document.getElementById('headerTitle').innerText = (lang==='mr') ? "🌐 ग्रामपंचायत सेतू" : "🌐 Gram Panchayat Setu";
+  document.getElementById('searchBar').placeholder = (lang==='mr') ? "🔍 नाव शोधा" : "🔍 Search name";
   displayUsers(usersData);
 }
 
-function closePopup(){ document.getElementById("popup").style.display="none"; }
+function closePopup() { document.getElementById('popup').style.display='none'; }
 
-// Fetch CSV and parse using PapaParse
-Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vTDCBhcg0ARlcpZqsc5KHZh6mWi3cgqS1KCtHoSVziWsCDoR0ZyxWcqkYMdWxPVCfgrj7kNSP574xVa/pub?output=csv", {
-  download:true,
-  header:true,
-  skipEmptyLines:true,
-  complete: function(results){
-    usersData = results.data.map(u=>{
-      u.demand={
-        harpi:Number(u['House Tax / घरपी कर']||0),
-        arogya:Number(u['Health Tax / आरोग्य कर']||0),
-        dababi:Number(u['Education/Other Tax / दबाबी कर']||0),
-        pani:Number(u['Water Tax / पाणीपि कर']||0),
-        pad:Number(u['Land Tax / पडसर जमीन']||0),
-        fine:Number(u['Penalty / दंड']||0)
-      };
-      u.collection={
-        book:u['Book No (बुक)']||"",
-        receipt:u['Receipt No. / पावती क्रमांक']||"",
-        date:u['Receipt Date / पावती दिनांक']||"",
-        harpi:Number(u['Paid House Tax / भरलेला घरपी कर']||0),
-        arogya:Number(u['Paid Health Tax / भरलेला आरोग्य कर']||0),
-        dababi:Number(u['Paid Other Tax / भरलेला दबाबी कर']||0),
-        pani:Number(u['Paid Water Tax / भरलेला पाणीपि कर']||0),
-        padLand:Number(u['Paid Land Tax / भरलेला पडसर जमीन']||0),
-        finePaid:Number(u['Paid Penalty / भरलेला दंड']||0),
-        sut:Number(u['Discount / सुट']||0)
-      };
-      return u;
-    });
-    displayUsers(usersData);
-  }
-});
+// CSV URL
+const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTDCBhcg0ARlcpZqsc5KHZh6mWi3cgqS1KCtHoSVziWsCDoR0ZyxWcqkYMdWxPVCfgrj7kNSP574xVa/pub?output=csv";
 
-// Display users
-function displayUsers(users){
-  userList.innerHTML='';
-  users.forEach(u=>{
-    const div=document.createElement("div");
-    div.className="user-item";
-    div.innerText=(lang==='mr')?u['Name (Marathi) / नाव (मराठी)']:u['Name (English) / नाव (इंग्रजी)'];
-    div.onclick=()=>openPopup(u);
-    userList.appendChild(div);
-  });
-}
-
-// Search
-document.getElementById('searchBar').addEventListener('input',function(){
-  const q=this.value.toLowerCase();
-  displayUsers(usersData.filter(u=>(lang==='mr'?u['Name (Marathi) / नाव (मराठी)']:u['Name (English) / नाव (इंग्रजी)']).toLowerCase().includes(q)));
-});
-
-// Open popup
-function openPopup(u){
-  document.getElementById("popup").style.display="block";
-  document.getElementById("popupImg").src="https://cdn-icons-png.flaticon.com/512/149/149071.png";
-  document.getElementById("popupNameMr").innerText=u['Name (Marathi) / नाव (मराठी)'];
-  document.getElementById("popupNameEn").innerText=u['Name (English) / नाव (इंग्रजी)'];
-  document.getElementById("popupWard").innerText=`🏠 वार्ड नं. ${u['Ward No. / वार्ड क्रमांक']}, घर नं. ${u['House No. / घर क्रमांक']}`;
-
-  let d=u.demand;
-  document.getElementById("dHarpi").innerText=d.harpi;
-  document.getElementById("dArogya").innerText=d.arogya;
-  document.getElementById("dDababi").innerText=d.dababi;
-  document.getElementById("dPani").innerText=d.pani;
-  document.getElementById("dPad").innerText=d.pad;
-  document.getElementById("dFine").innerText=d.fine;
-  document.getElementById("dTotal").innerText=d.harpi+d.arogya+d.dababi+d.pani+d.pad+d.fine;
-
-  let c=u.collection;
-  document.getElementById("cBook").innerText=c.book;
-  document.getElementById("cReceipt").innerText=c.receipt;
-  document.getElementById("cDate").innerText=c.date;
-  document.getElementById("cHarpi").innerText=c.harpi;
-  document.getElementById("cArogya").innerText=c.arogya;
-  document.getElementById("cDababi").innerText=c.dababi;
-  document.getElementById("cPani").innerText=c.pani;
-  document.getElementById("cPadLand").innerText=c.padLand;
-  document.getElementById("cFinePaid").innerText=c.finePaid;
-  document.getElementById("cDiscount").innerText=c.sut;
-  document.getElementById("cTotalCollection").innerText=c.harpi+c.arogya+c.dababi+c.pani+c.padLand+c.finePaid-c.sut;
-  document.getElementById("cRemain").innerText=(d.harpi+d.arogya+d.dababi+d.pani+d.pad+d.fine)-(c.harpi+c.arogya+c.dababi+c.pani+c.padLand+c.finePaid-c.sut);
-}
-</script>
-</body>
-</html>
+// Fetch and parse CSV
+fetch(csvURL)
+.then(res => res.text())
+.then(csv => {
+  const rows = csv.split("\n").filter(r=>r.trim()!=='').map(r => r.split(","));
+  const headers = rows[0].map(h => h.trim());
+  usersData = rows.slice(1).map(r=>{
+    let obj = {};
+    r.forEach((c,i)=>{ obj[headers[i]] = c.trim(); });
+    obj.
